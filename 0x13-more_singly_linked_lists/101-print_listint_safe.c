@@ -1,3 +1,4 @@
+#include "lists.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -12,7 +13,7 @@
  * Return: the number of nodes in the list.
  */
 
-size_t print_listint_safe(const listint *head)
+size_t print_listint_safe(const listint_t *head)
 {
 	listnode_t *nodes = NULL; /* stores address of nodes */
 	size_t count = 0;
@@ -49,16 +50,16 @@ size_t print_listint_safe(const listint *head)
  *
  * Return: the address of the new element, or NULL if it failed
  */
-listnode_t *add_nodeptr(listnode *head, const listint *ptr)
+listnode_t *add_nodeptr(listnode_t **head, const listint_t *ptr)
 {
-	listnode *new_node;
+	listnode_t *new_node;
 
 	/* create new node */
-	new_node = malloc(sizeof(listnode));
+	new_node = malloc(sizeof(listnode_t));
 	/* if malloc fails return NULL */
 	if (new_node == NULL)
 		return (NULL);
-	new_node->ptr = (listint *)ptr;
+	new_node->ptr = (listint_t *)ptr;
 	new_node->next = *head;
 	*head = new_node;
 	return (new_node);
@@ -68,7 +69,7 @@ listnode_t *add_nodeptr(listnode *head, const listint *ptr)
  * free_listnode - frees a free_listnode list
  * @head: pointer to first node of the list
  */
-void free_listnode(listnode *head)
+void free_listnode(listnode_t *head)
 {
 	if (head == NULL)
 		return;
