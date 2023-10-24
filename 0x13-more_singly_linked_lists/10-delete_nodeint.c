@@ -1,82 +1,44 @@
-#include "list.h"
+#include "lists.h"
 #include <stdlib.h>
 
-typedef struct listint_t {
-    int data;
-    struct listint_t *next;
-} listint_t;
+/**
+ * delete_nodeint_at_index - function that deletes the node at index,
+ * index of a listint_t linked list.
+ * @head: pointer to pointer to the head of linked list.
+ * @index:index of the node that should be deleted. Index starts at 0.
+ *
+ * Return:  1 if it succeeded, -1 if it failed.
+ */
 
-void deleteNodeAtIndex(listint_t **head, int index) {
-    if (*head == NULL) {
-        return; // List is empty
-    }
-
-    if (index == 0) {
-        listint_t *temp = *head;
-        *head = (*head)->next;
-        free(temp);
-        return;
-    }
-
-    listint_t *prev = NULL;
-    listint_t *current = *head;
-    int count = 0;
-
-    while (current != NULL && count < index) {
-        prev = current;
-        current = current->next;
-        count++;
-    }
-
-    if (current == NULL) {
-        return; // Index is out of bounds
-    }
-
-    prev->next = current->next;
-    free(current);
-}
-
-void printList(listint_t *head) {
-    listint_t *current = head;
-
-    while (current != NULL) {
-        printf("%d ", current->data);
-        current = current->next;
-    }
-
-    printf("\n");
-}
-
-int main() {
-    // Create a sample linked list
-    listint_t *node1 = malloc(sizeof(listint_t));
-    node1->data = 1;
-    
-    listint_t *node2 = malloc(sizeof(listint_t));
-    node2->data = 2;
-    
-    listint_t *node3 = malloc(sizeof(listint_t));
-    node3->data = 3;
-    
-    node1->next = node2;
-    node2->next = node3;
-    node3->next = NULL;
-
-    // Print the original linked list
-    printf("Original linked list: ");
-    printList(node1);
-
-    // Delete node at index 1
-    deleteNodeAtIndex(&node1, 1);
-
-    // Print the modified linked list
-    printf("Linked list after deletion: ");
-    printList(node1);
-
-    // Free memory
-    free(node1);
-    free(node2);
-    free(node3);
-
-    return 0;
+int delete_nodeint_at_index(listint_t **head, unsigned int index)
+{
+	listint_t *temp_variable, *temp_variable2;
+	unsigned int i = 0;
+	/* if there is no list then return NULL */
+	if (head == NULL || *head == NULL)
+		return (-1);
+	/* check for index 0 */
+	if (index == 0)
+	{
+		temp_variable = *head;
+		*head = (*head)->next;
+		free(temp_variable);
+		return (1);
+	}
+	/* assign the temporary variable as the first node */
+	temp_variable = *head;
+	/* traverse the list till the index */
+	while (i != index - 1 && temp_variable->next != NULL)
+	{
+		temp_variable = temp_variable->next;
+		i++;
+	}
+	if (i == index - 1 && temp_variable->next != NULL)
+	{
+		temp_variable2 = temp_variable->next;
+		temp_variable->next = temp_variable2->next;
+		free(temp_variable2);
+		return (1);
+	} /* by here the code has failed so we return -1 */
+	return (-1);
 }
